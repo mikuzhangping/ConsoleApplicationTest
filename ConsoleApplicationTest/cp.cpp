@@ -19,7 +19,7 @@ void CreateShortcut(LPCSTR TARGET, LPCOLESTR LNKFILE)
 	HRESULT hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&psl));
 	if (SUCCEEDED(hr))
 	{
-		psl->SetPath(TARGET);
+		psl->SetPath((LPWSTR)TARGET);
 		psl->SetDescription(TEXT("This is just an example."));
 
 		IPersistFile *ppf;

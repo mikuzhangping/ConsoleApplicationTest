@@ -25,7 +25,7 @@ int mai(int argc, char *argv[])
 {
 	char username[UNLEN + 1];
 	DWORD username_len = UNLEN + 1;
-	GetUserName(username, &username_len);
+	GetUserName((LPWSTR)username, &username_len);
 
 	TCHAR computername[MAX_COMPUTERNAME_LENGTH + 2];
 	DWORD buf_size = sizeof computername - 1;

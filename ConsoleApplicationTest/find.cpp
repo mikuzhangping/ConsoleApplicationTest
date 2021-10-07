@@ -533,7 +533,7 @@ int find(int argc, char *argv[])
 	string exec_cmd = "";
 	char ** new_param = new char*[256];
 	//char ** new_param = NULL;
-	new_param[0] = "0";
+	new_param[0] = (char *)"0";
 	int param_num;
 	
 	for (int i = 1; i < argc; i++) {
