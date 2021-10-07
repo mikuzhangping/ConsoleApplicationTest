@@ -1,0 +1,9 @@
+m:
+cd TDDOWNLOAD
+cd 上机实验\aquifer
+ffmpeg -ss 00:22:41 -to 01:01:37 -i vts-01.mp4 -vcodec copy -acodec copy vts-01-cut.mp4
+ffmpeg -f concat -safe 0 -i ffmpeg.txt -c copy [44x.me]apns-041-cut.mp4
+
+
+
+n
