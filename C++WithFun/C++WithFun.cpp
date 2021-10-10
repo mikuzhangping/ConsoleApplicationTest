@@ -2,19 +2,42 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <memory>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+std::unique_ptr<char[]> unicode_to_utf8(uint16_t unicode) {
+	const int k_buffer_length = 3;
+	auto buffer = std::make_unique<char[]>(k_buffer_length);
+	buffer[0] = 0xE0 | (unicode >> 12);
+	buffer[1] = 0x80 | ((unicode >> 6) & 0x3F);
+	buffer[2] = 0x80 | (unicode & 0x3F);
+	return buffer;
 }
 
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
+void write_all_chinese_charter() {
+	const auto k_chinese_encoding_begin = 0x4E00;
+	const auto k_chinese_encoding_end = 0x9FFF;
+	const auto k_output_filename = "test_01.txt";
 
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件
+	//实例化一个 out对象，是不是不记得了。。。
+	std::ofstream out(k_output_filename, std::ios::out | std::ios::binary);
+	for (int i = k_chinese_encoding_begin; i <= k_chinese_encoding_end; i++) {
+		uint16_t unicode = i;
+		auto buffer = unicode_to_utf8(unicode);
+		out.write(buffer.get(), 3);
+		out.write("\n", 1);
+	}
+
+	out.close();
+}
+
+int main() {
+	char ch = '我';
+	int chInt = '我';
+	char gbk[4] = "我";
+	char utf8[4] = { 0xE4, 0xB8, 0x80 ,gbk[2] };
+	std::cout << std::hex << chInt << std::endl;
+	std::cout << std::hex << '我' << std::endl;
+	std::cout << utf8 << std::endl;
+	
+}
